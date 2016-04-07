@@ -17,7 +17,7 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
 
   do: (request, callback) =>
     {fromUuid, toUuid, route} = request.metadata
-    if _.some(route, {toUuid: toUuid, fromUuid: fromUuid, type: 'broadcast.received'})
+    if _.some(route, {to: toUuid, from: fromUuid, type: 'broadcast.received'})
       return @_doCallback request, 204, callback
 
     @subscriptionManager.emitterListForType {emitterUuid: toUuid, type: 'broadcast.received'}, (error, subscriptions) =>
