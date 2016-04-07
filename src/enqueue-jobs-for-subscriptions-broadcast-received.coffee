@@ -16,8 +16,8 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
     callback null, response
 
   do: (request, callback) =>
-    {fromUuid, toUuid, messageRoute} = request.metadata
-    if _.some(messageRoute, {toUuid: toUuid, fromUuid: fromUuid, type: 'broadcast.received'})
+    {fromUuid, toUuid, route} = request.metadata
+    if _.some(route, {toUuid: toUuid, fromUuid: fromUuid, type: 'broadcast.received'})
       return @_doCallback request, 204, callback
 
     @subscriptionManager.emitterListForType {emitterUuid: toUuid, type: 'broadcast.received'}, (error, subscriptions) =>
@@ -37,7 +37,7 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
       toUuid: request.metadata.toUuid
       type: 'broadcast.received'
 
-    messageRoute = _.compact [hop].concat request.metadata.messageRoute
+    route = _.compact [hop].concat request.metadata.route
 
     return {
       metadata:
@@ -46,7 +46,7 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
           uuid: subscription.subscriberUuid
         fromUuid: subscription.emitterUuid
         toUuid: subscription.subscriberUuid
-        messageRoute: messageRoute
+        route: route
       rawData: request.rawData
     }
 

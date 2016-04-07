@@ -93,7 +93,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
                   uuid: 'some-other-uuid'
                 fromUuid: 'subscriber-uuid'
                 toUuid: 'some-other-uuid'
-                messageRoute: [
+                route: [
                  {
                    fromUuid: "emitter-uuid"
                    toUuid: "subscriber-uuid"
@@ -104,7 +104,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
             }
             done()
 
-      context 'when given a message with a previous hop in the messageRoute', ->
+      context 'when given a message with a previous hop in the route', ->
         beforeEach (done) ->
           request =
             metadata:
@@ -112,7 +112,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
               fromUuid: 'emitter-uuid'
               toUuid: 'subscriber-uuid'
               options: {}
-              messageRoute: [{
+              route: [{
                 fromUuid: 'original-uuid'
                 toUuid: 'emitter-uuid'
                 type: 'broadcast.sent'
@@ -141,7 +141,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
                   uuid: 'some-other-uuid'
                 fromUuid: 'subscriber-uuid'
                 toUuid: 'some-other-uuid'
-                messageRoute: [
+                route: [
                   {
                     fromUuid: "emitter-uuid"
                     toUuid: "subscriber-uuid"
@@ -157,7 +157,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
             }
             done()
 
-      context 'when given a broadcast with a hop in the messageRoute equal to this one', ->
+      context 'when given a broadcast with a hop in the route equal to this one', ->
         beforeEach (done) ->
           request =
             metadata:
@@ -165,7 +165,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
               fromUuid: 'emitter-uuid'
               toUuid: 'original-uuid'
               options: {}
-              messageRoute: [{
+              route: [{
                 fromUuid: 'emitter-uuid'
                 toUuid: 'original-uuid'
                 type: 'broadcast.received'
