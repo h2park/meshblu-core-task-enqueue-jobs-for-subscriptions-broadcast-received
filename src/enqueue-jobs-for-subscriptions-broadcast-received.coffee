@@ -33,8 +33,8 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
 
   _buildRequest: ({request, subscription}) =>
     hop  =
-      fromUuid: request.metadata.fromUuid
-      toUuid: request.metadata.toUuid
+      from: request.metadata.fromUuid
+      to: request.metadata.toUuid
       type: 'broadcast.received'
 
     route = _.compact [hop].concat request.metadata.route
