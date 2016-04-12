@@ -1,6 +1,6 @@
 {
   "name": "meshblu-core-task-enqueue-jobs-for-subscriptions-broadcast-received",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "Meshblu core task meshblu-core-task-enqueue-jobs-for-subscriptions-broadcast-received",
   "keywords": [
     "meshblu",
