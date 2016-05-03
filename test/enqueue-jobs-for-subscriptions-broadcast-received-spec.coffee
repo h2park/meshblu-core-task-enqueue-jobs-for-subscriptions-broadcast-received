@@ -1,10 +1,11 @@
-_          = require 'lodash'
 redis      = require 'fakeredis'
 RedisNS    = require '@octoblu/redis-ns'
 mongojs    = require 'mongojs'
 uuid       = require 'uuid'
 Datastore  = require 'meshblu-core-datastore'
 JobManager = require 'meshblu-core-job-manager'
+{beforeEach, context, describe, it} = global
+{expect}                            = require 'chai'
 EnqueueJobsForSubscriptionsBroadcastReceived = require '../'
 
 describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
@@ -69,6 +70,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
               fromUuid: 'emitter-uuid'
               toUuid: 'subscriber-uuid'
               options: {}
+              forwardedRoutes: []
             rawData: '{"original":"message"}'
 
           @sut.do request, (error, @response) => done error
@@ -86,7 +88,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
           @jobManager.getRequest ['request'], (error, request) =>
             return done error if error?
             delete request?.metadata?.responseId
-            expect(request).to.deep.equal {
+            expect(request).to.containSubset {
               metadata:
                 jobType: 'DeliverSubscriptionBroadcastReceived'
                 auth:
@@ -99,7 +101,8 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
                    to: "subscriber-uuid"
                    type: "broadcast.received"
                  }
-               ]
+                ]
+                forwardedRoutes: []
               rawData: '{"original":"message"}'
             }
             done()
@@ -117,6 +120,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
                 to: 'emitter-uuid'
                 type: 'broadcast.sent'
               }]
+              forwardedRoutes: []
             rawData: '{"original":"message"}'
 
           @sut.do request, (error, @response) => done error
@@ -134,7 +138,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
           @jobManager.getRequest ['request'], (error, request) =>
             return done error if error?
             delete request?.metadata?.responseId
-            expect(request).to.deep.equal {
+            expect(request).to.containSubset {
               metadata:
                 jobType: 'DeliverSubscriptionBroadcastReceived'
                 auth:
@@ -153,6 +157,7 @@ describe 'EnqueueJobsForSubscriptionsBroadcastReceived', ->
                     type: "broadcast.received"
                   }
                 ]
+                forwardedRoutes: []
               rawData: '{"original":"message"}'
             }
             done()
