@@ -24,6 +24,9 @@ class EnqueueJobsForSubscriptionsBroadcastReceived
       return callback error if error?
       return @_doCallback request, 204, callback if _.isEmpty subscriptions
 
+      if toUuid == fromUuid
+        subscriptions = _.filter subscriptions, { emitterUuid: toUuid, subscriberUuid: fromUuid }
+
       requests = _.map subscriptions, (subscription) =>
         @_buildRequest {request, subscription}
 
